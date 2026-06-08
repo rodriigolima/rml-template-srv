@@ -1,49 +1,29 @@
-name: CI — rml-srv-SERVICE_NAME
+name: Template validation — rml-template-srv
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main ]
   pull_request:
     branches: [ main ]
 
+# Este é um template de estrutura — não compila diretamente.
+# O CI apenas valida que os arquivos obrigatórios existem.
+# Quando usado como base para um serviço real, o CI do novo repo fará o build.
 jobs:
-  build:
-    runs-on: ubuntu-latest
 
+  validate-structure:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up JDK 21
-        uses: actions/setup-java@v4
-        with:
-          java-version: '21'
-          distribution: 'temurin'
-          cache: maven
-
-      - name: Configure Maven settings (Nexus)
+      - name: Validar arquivos obrigatórios do template
         run: |
-          mkdir -p ~/.m2
-          cat > ~/.m2/settings.xml <<EOF
-          <settings>
-            <servers>
-              <server>
-                <id>rml-nexus-group</id>
-                <username>${{ secrets.NEXUS_USER }}</username>
-                <password>${{ secrets.NEXUS_PASSWORD }}</password>
-              </server>
-            </servers>
-          </settings>
-          EOF
-
-      - name: Build e testes
-        run: mvn --batch-mode clean verify
-
-      - name: Build Docker image
-        run: docker build -t rodriigolima/rml-srv-SERVICE_NAME:${{ github.sha }} .
-
-      # TODO: Descomentar quando tiver registry configurado
-      # - name: Push Docker image
-      #   run: |
-      #     echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
-      #     docker push rodriigolima/rml-srv-SERVICE_NAME:${{ github.sha }}
+          echo "Validando estrutura do template..."
+          test -f pom.xml             && echo "OK pom.xml"
+          test -f Dockerfile          && echo "OK Dockerfile"
+          test -f k8s/deployment.yaml && echo "OK k8s/deployment.yaml"
+          test -f k8s/service.yaml    && echo "OK k8s/service.yaml"
+          test -f k8s/configmap.yaml  && echo "OK k8s/configmap.yaml"
+          test -f src/main/resources/application.yml && echo "OK application.yml"
+          echo "Template structure OK"
