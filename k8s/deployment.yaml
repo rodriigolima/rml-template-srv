@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: rml-srv-SERVICE_NAME
-          image: rodriigolima/rml-srv-SERVICE_NAME:latest # TODO: Atualizar imagem
+          image: ghcr.io/org-rml/rml-srv-br.com.SERVICE_PACKAGE.SERVICE_NAME:latest # TODO: Atualizar imagem
           ports:
             - containerPort: 8080
           envFrom:
