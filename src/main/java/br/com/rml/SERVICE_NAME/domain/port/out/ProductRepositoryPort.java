@@ -6,9 +6,10 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Port OUT — define o que o domínio precisa do mundo externo para persistir dados.
- * O domínio depende desta interface, nunca da implementação concreta (JPA, MongoDB, in-memory...).
- * Implementado pelos adapters de saída (InMemoryProductAdapter, JpaProductAdapter, etc).
+ * Port OUT — define o que o domínio precisa do mundo externo para persistir
+ * dados. O domínio depende desta interface, nunca da implementação concreta
+ * (JPA, MongoDB, in-memory...). Implementado pelos adapters de saída
+ * (InMemoryProductAdapter, JpaProductAdapter, etc).
  */
 public interface ProductRepositoryPort {
 

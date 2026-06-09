@@ -5,8 +5,8 @@ import br.com.rml.SERVICE_NAME.domain.model.Product;
 import java.util.List;
 
 /**
- * Port IN — define o contrato que o domínio expõe para o mundo externo.
- * O controller (adapter IN) só enxerga esta interface, nunca o ProductService.
+ * Port IN — define o contrato que o domínio expõe para o mundo externo. O
+ * controller (adapter IN) só enxerga esta interface, nunca o ProductService.
  * Implementado pelo ProductService.
  */
 public interface ManageProductUseCase {
