@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
  *
  * Entidade JPA — existe SOMENTE no adapter de persistência.
  * O domínio nunca conhece esta classe.
- * Estende BaseLongEntity do rml-common para ter id, createdAt e updatedAt.
+ * Estende BaseLongEntity do rml-common para ter createdAt e updatedAt.
  */
 @Entity
 @Table(name = "samples") // TODO: Alterar nome da tabela
@@ -24,13 +24,16 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 public class SampleEntity extends BaseLongEntity {
 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     // TODO: Adicionar campos mapeados para colunas
     @Column(nullable = false)
     private String name;
 
     @Override
-    public Long getId() { return super.getId() != null ? super.getId() : null; }
+    public Long getId() { return id; }
 
     @Override
-    public void setId(Long id) { /* gerenciado pelo BaseLongEntity */ }
+    public void setId(Long id) { this.id = id; }
 }
