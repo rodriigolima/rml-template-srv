@@ -48,6 +48,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     permissions:
       contents: read
       packages: write
@@ -80,7 +82,8 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           build-args: |
             GITHUB_ACTOR=${{ github.actor }}
-            PACKAGES_TOKEN=${{ secrets.PACKAGES_TOKEN }}
+          secrets: |
+            packages_token=${{ secrets.PACKAGES_TOKEN }}
 
   deploy-sandbox:
     needs: docker
